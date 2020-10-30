@@ -164,7 +164,7 @@ L.GeoJSONChoropleth = L.GeoJSON.extend({
   onRemove: function(map) {
     var self = this;
     if(self._legend) {
-      self._legend.removeFrom(map);
+      self._legend.remove();
     }
     L.LayerGroup.prototype.onRemove.call(self, map);
   },
