@@ -84,8 +84,12 @@ L.GeoJSONChoropleth = L.GeoJSON.extend({
         cols = options.channelMode !== 'rgb' ? cols.mode(options.channelMode) : cols ; //rgb is default.
         cols = options.correctLightness ? cols.correctLightness() : cols;
       }
+      var steps = options.steps;
+      if (Array.isArray(steps)) {
+        steps = steps.length;
+      }
       cols = options.padding ?
-        cols.padding(options.padding).colors(options.steps) : cols.colors(options.steps);
+        cols.padding(options.padding).colors(steps) : cols.colors(steps);
     }
     self._colors = cols;
 
