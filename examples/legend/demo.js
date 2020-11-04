@@ -10,8 +10,8 @@ L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
 $.getJSON('../basic/crimes_by_district.geojson', function (geojson) {
   var choroplethLayer = L.choropleth(geojson, {
     valueProperty: 'incidents',
-    scale: ['white', 'red'],
-    steps: 5,
+    scale: "Spectral",
+    steps: [0,10000,20000,30000,40000],
     mode: 'q',
     style: {
       color: '#fff',
@@ -21,26 +21,8 @@ $.getJSON('../basic/crimes_by_district.geojson', function (geojson) {
     onEachFeature: function (feature, layer) {
       layer.bindPopup('District ' + feature.properties.dist_num + '<br>' + feature.properties.incidents.toLocaleString() + ' incidents')
     }
+  }, {
+    title: "Crimes",
+    position: "bottomright"
   }).addTo(map)
-
-  // Add legend (don't forget to add the CSS from index.html)
-  var legend = L.control({ position: 'bottomright' })
-  legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend')
-    var limits = choroplethLayer.options.limits
-    var colors = choroplethLayer.options.colors
-    var labels = []
-
-    // Add min & max
-    div.innerHTML = '<div class="labels"><div class="min">' + limits[0] + '</div> \
-			<div class="max">' + limits[limits.length - 1] + '</div></div>'
-
-    limits.forEach(function (limit, index) {
-      labels.push('<li style="background-color: ' + colors[index] + '"></li>')
-    })
-
-    div.innerHTML += '<ul>' + labels.join('') + '</ul>'
-    return div
-  }
-  legend.addTo(map)
 })
